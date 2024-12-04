@@ -1,25 +1,24 @@
 // Conversation Logic: Questions related to portfolio, greetings, and location
 function getPortfolioResponse(userMessage) {
     const responses = {
-      hi: 'Hello! How can I assist you with my portfolio today?',
-      hello: 'Hi there! What would you like to know about my portfolio?',
-      'how are you': "I'm just a bot, but I'm here to help! What can I do for you?",
-      hey: 'Hey there! Feel free to ask me about my skills, experience, or projects.',
-      skills: 'I am skilled in Python, PHP, Flutter, HTML5, CSS3, and JavaScript.',
-      experience: 'I have 1 year of experience as a PHP Backend Developer at Mukuru and 6 months as a Junior Data Analyst.',
-      projects: 'I have worked on several projects, including ride-sharing apps, subscription systems, and gym management apps.',
-      education: 'I hold a Diploma in Computer System Engineering, which I completed in 2020.',
-      location: 'I am based in South Africa and can collaborate remotely or in-person.',
+      hi: 'Hi! I am MiBot. How can I assist you today?',
+      hello: 'Hello! I am MiBot. How can I assist you today?',
+      hey: 'Hey! I am MiBot. How can I assist you today?',
+      'how are you':"I'm great, thank you for asking! 😊 How about you? How can I assist you today?'",
+      skills: 'My Soft Skills include: Communication, Teamwork, Adaptability, Emotional Intelligence, Creativity... and my Technical Skills include: C++, Java, HTML, CSS, SQL, Microsoft Suite, ER Modeling...',
+      experience: 'I did my Work Integrated Learning with Mosebo Networks for a year.',
+      education: 'I attend Noordwyk Secondary where I obtained my Matric Certificate in the year 2017. I than went to Tshwane University of Technology (TUT), where I completed my National Diploma in Information Technology (Software Development).',
+      location: 'I am located in Midrand,Gauteng.',
       // Add more responses as needed
     };
    
    
     // Check for existing responses
     const lowerCaseMessage = userMessage.toLowerCase();
-    return responses[lowerCaseMessage] || "I'm sorry, I didn't understand that. Can you please clarify?";
+    return responses[lowerCaseMessage] || "Oops, I'm only a bot, and I’m stumped. Can we try again?";
   }
    
-  // Handle user input
+// Handle user input
   document.getElementById("send-btn").addEventListener("click", () => {
     const userMessage = document.getElementById("chat-input").value.trim();
     if (userMessage) {
@@ -29,3 +28,12 @@ function getPortfolioResponse(userMessage) {
       document.getElementById("chat-input").value = ""; // Clear input
     }
   });
+
+// Function to add messages to the chatbox
+  function addMessage(content, type) {
+    const message = document.createElement('div');
+    message.className = type === 'sent' ? 'message-sent' : 'message-received';
+    message.textContent = content;
+    chatboxMessages.appendChild(message);
+    chatboxMessages.scrollTop = chatboxMessages.scrollHeight; // Auto-scroll
+  }
