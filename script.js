@@ -1,78 +1,116 @@
-const chatInput = document.querySelector(".chat-input textarea");
-const sendChatBtn = document.querySelector("#send-btn");
-const chatbox = document.querySelector(".chatbox");
-const chatButton = document.querySelector(".chatbox-toggler");
-const closeChatbotButtons = document.querySelectorAll(".close-chatbot");
-const showChatbot = document.querySelector(".show-chatbot");
+// Function to open the chat window
+function openChat() {
+    const chatbot = document.querySelector('.chatbot');
+    const openIcon = document.querySelector('.chatbox-toggler .open');
+    const closeIcon = document.querySelector('.chatbox-toggler .close');
+    const openChatBtn = document.querySelector('.open-chat-btn');  // Floating open button
 
-// Function to create a new chat message element
-const createChatLi = (message, className) => {
-    const chatLi = document.createElement("li");
-    chatLi.classList.add("chat", className);
-    let chatContent = className === "outgoing"
-        ? `<p>${message}</p>`
-        : `<span class="material-symbols-outlined">smart_toy</span><p>${message}</p>`;
-    chatLi.innerHTML = chatContent;
-    return chatLi;
-};
+    // Show the chatbot and switch the icons
+    chatbot.classList.add('show');
+    openIcon.style.display = 'none';
+    closeIcon.style.display = 'block';
 
-// Simulating a chatbot response
-const generateResponse = (userMessage) => {
-    let botResponse = "";
-    if (userMessage.includes("hello") || userMessage.includes("hi")) {
-        botResponse = "Hi there! How can I help you today?";
-    } else if (userMessage.includes("help")) {
-        botResponse = "Sure, I can assist you. What do you need help with?";
-    } else {
-        botResponse = "I'm not sure I understand. Could you please clarify?";
+    // Hide the floating open chat button
+    openChatBtn.style.display = 'none';
+}
+
+// Function to close the chat window
+function closeChat() {
+    const chatbot = document.querySelector('.chatbot');
+    const openIcon = document.querySelector('.chatbox-toggler .open');
+    const closeIcon = document.querySelector('.chatbox-toggler .close');
+    const openChatBtn = document.querySelector('.open-chat-btn');  // Floating open button
+
+    // Hide the chatbot and switch the icons
+    chatbot.classList.remove('show');
+    openIcon.style.display = 'block';
+    closeIcon.style.display = 'none';
+
+    // Show the floating open chat button again
+    openChatBtn.style.display = 'block';
+}
+
+// Function to create a new message element
+function createMessage(content, sender) {
+    const messageElement = document.createElement("li");
+    messageElement.classList.add("chat");
+    messageElement.classList.add(sender === 'user' ? 'outgoing' : 'incoming');
+    
+    const icon = document.createElement("span");
+    icon.classList.add("material-symbols-outlined");
+    icon.textContent = sender === 'user' ? 'person' : 'smart_toy';
+
+    const messageText = document.createElement("p");
+    messageText.textContent = content;
+
+    // For user messages, icon goes on the right, for bot messages, icon goes on the left
+    messageElement.appendChild(messageText);
+    messageElement.appendChild(icon);
+
+    return messageElement;
+}
+
+
+// Function to handle sending a message
+function sendMessage() {
+    const userInput = document.getElementById("user-input");
+    const chatBox = document.getElementById("chat-box");
+    const userMessage = userInput.value.trim();
+
+    // If user input is not empty, display it
+    if (userMessage) {
+        // Display the user's message
+        chatBox.appendChild(createMessage(userMessage, 'user'));
+
+        // Clear the input field
+        userInput.value = "";
+        userInput.focus();
+
+        // Scroll to the bottom of the chatbox
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        // Simulate a bot response
+        setTimeout(() => {
+            const botResponse = getBotResponse(userMessage);
+            chatBox.appendChild(createMessage(botResponse, 'bot'));
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }, 1000); // Bot reply delay
     }
+}
 
-    setTimeout(() => {
-        chatbox.appendChild(createChatLi(botResponse, "incoming"));
-        chatbox.scrollTop = chatbox.scrollHeight;
-    }, 1000);
-};
+// Function to simulate a basic bot response
+function getBotResponse(userMessage) {
+    const lowerCaseMessage = userMessage.toLowerCase();
 
-// Handle sending the chat message
-const handleChat = () => {
-    const userMessage = chatInput.value.trim();
-    if (!userMessage) return;
+    if (lowerCaseMessage.includes("hello") || lowerCaseMessage.includes("hi")) {
+        return "Hello! How can I assist you today?";
+    } else if (lowerCaseMessage.includes("tell me about yourself")) {
+        return "I'm doing great, thank you for asking!";
+    } else if (lowerCaseMessage.includes("bye")) {
+        return "Goodbye! Have a nice day!";
+    }
+    else {
+        return "Sorry, I didn't quite understand that. Can you rephrase?";
+    }
+}
 
-    chatbox.appendChild(createChatLi(userMessage, "outgoing"));
-    chatInput.value = "";
+// Add event listener to send button
+document.getElementById("send-btn").addEventListener("click", sendMessage);
 
-    setTimeout(() => {
-        chatbox.appendChild(createChatLi("Thinking...", "incoming"));
-        chatbox.scrollTop = chatbox.scrollHeight;
-    }, 300);
-
-    generateResponse(userMessage);
-};
-
-// Event listener for send button
-sendChatBtn.addEventListener("click", handleChat);
-
-// Optional: Enable 'Enter' key to send the message
-chatInput.addEventListener("keypress", (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-        e.preventDefault();
-        handleChat();
+// Add event listener to the Enter key for sending a message
+document.getElementById("user-input").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        sendMessage();
     }
 });
 
-// Toggle the chatbot visibility
-chatButton.addEventListener("click", () => {
-    showChatbot.classList.toggle("show");
-    const isVisible = showChatbot.classList.contains("show");
-    chatButton.querySelector(".open").style.opacity = isVisible ? "0" : "1";
-    chatButton.querySelector(".close").style.opacity = isVisible ? "1" : "0";
-});
+// Attach event listeners for chat toggler and close button
+document.querySelector('.chatbox-toggler').addEventListener('click', openChat);
+document.querySelector('.close-chatbot').addEventListener('click', closeChat);
 
-// Close the chatbot when the close button inside the chatbot is clicked
-closeChatbotButtons.forEach(button => {
-    button.addEventListener("click", () => {
-        showChatbot.classList.remove("show");
-        chatButton.querySelector(".open").style.opacity = "1";
-        chatButton.querySelector(".close").style.opacity = "0";
-    });
+ocument.addEventListener("DOMContentLoaded", function() {
+    const initialMessage = document.querySelector("#chat-box .chat.incoming");
+    if (initialMessage) {
+        initialMessage.style.display = "none";
+    }
 });

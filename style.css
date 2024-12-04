@@ -98,7 +98,7 @@ button:hover {
   filter: drop-shadow(0 0 20px var(--main-color));
 }
 /* ChatBot */
-.chatbox-toggler {
+/* .chatbox-toggler {
     position: fixed;
     right: 20px;
     bottom: 20px;
@@ -173,7 +173,7 @@ button:hover {
 .chatbox .chat {
     display: flex;
 }
-.chatbox .ingoing span {
+.chatbox .incoming span {
     height: 30px;
     width: 30px;
     color: #fff;
@@ -228,7 +228,6 @@ button:hover {
     font-size: 1.25rem;
     cursor: pointer;
     visibility: hidden;
-    background: #333333;
 }
 .chat-input textarea:valid ~ span {
     visibility: visible;
@@ -254,7 +253,268 @@ button:hover {
 
 .chatbot .chatbot-container {
     display: block;
+} */
+
+/* General Styles */
+.show-chatbot {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
 }
+
+/* Chatbox Toggler Button (Open/Close) */
+.chatbox-toggler {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    height: 45px;
+    width: 45px;
+    color: #fff;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    cursor: pointer;
+    background: #f94449;
+    border-radius: 50%;
+}
+.chatbot .chatbot-container {
+    display: block;
+}
+.chatbox-toggler .open {
+    display: block; /* Show open icon initially */
+}
+
+.chatbox-toggler .close {
+    display: none; /* Hide close icon initially */
+}
+
+/* Chatbot container */
+.chatbot {
+    display: none; /* Initially hidden */
+    width: 400px; /* Increased width */
+    height: 500px; /* Increased height */
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    position: relative;
+    font-size: 14px;
+    flex-direction: column;
+
+}
+.chatbot-container h2 {
+    color: #ffffff;
+    font-size: 1.2rem;
+   text-align: center;
+   padding-top: 10px;
+}
+
+.chatbot-container {
+    background: #f94449;
+    padding: 12px 0;
+    text-align: center;
+    position: relative;
+}
+
+.chatbot-container h2 {
+    margin: 0;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+/* Chatbox messages */
+.chatbox {
+    list-style: none;
+    padding: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.chat {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    align-items: center; /* Vertically align items */
+}
+
+.chat .material-symbols-outlined {
+    margin-right: 10px;
+}
+.chat p {
+    margin: 0;
+    max-width: 75%; /* Limit the message width to prevent it from taking the whole line */
+}
+
+.chat.incoming {
+    justify-content: flex-start; /* Align to the left */
+}
+
+/* Incoming messages */
+.chat.incoming p {
+    background-color: #e1e1e1;
+    color: #333;
+    padding: 10px;
+    border-radius: 5px;
+    
+}
+.chatbox .outgoing {
+    justify-content: flex-end; /* Align to the right */
+    color: #333;
+    border-radius: 5px;
+    padding: 10px;
+    width: auto
+}
+.chat.outgoing p {
+    background-color: #f94449;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+
+}
+/* Chat input */
+.chat-input {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    gap: 5px;
+    background: #fff;
+    padding: 5px 15px;
+    border-top: 1px solid #ccc;
+
+}
+
+textarea {
+    height: 50px;
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 0.9rem;
+    resize: none;
+    padding: 12px 14px;
+}
+
+#send-btn {
+    font-size: 24px;
+    color: #f94449;
+    cursor: pointer;  
+    margin-top: 20px;
+}
+
+/* Show chatbot functionality */
+.chatbot.show {
+    display: block;
+}
+
+/* Open Chat button */
+.open-chat-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: block; /* Always visible when chatbot is closed */
+    transition: all 0.3s ease;
+}
+
+.open-chat-btn:hover {
+    background-color: #0056b3;
+}
+.chat .material-symbols-outlined {
+    margin: 0 10px; /* Space between icon and message */
+    font-size: 1.5rem;
+}
+/* Adjust the icon position based on message alignment */
+.chat.incoming .material-symbols-outlined {
+    order: -1; /* Position the icon to the left for incoming messages */
+}
+.chat.outgoing .material-symbols-outlined {
+    order: 1; /* Position the icon to the right for outgoing messages */
+}
+
+/* Hide open chat button when chatbot is open */
+.chatbot.show + .open-chat-btn {
+    display: none;
+}
+
+/* Adjust send button styling on small screens */
+@media (max-width: 490px) {
+    .chatbot {
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        
+        border-radius: 0;
+    }
+    .chatbot .chatbox {
+        height: 85%;
+    }
+    .chatbot .chatbot-container h2 {
+        font-size: 1.1rem;
+    }
+    .chatbox .chat p {
+        font-size: 0.85rem;
+    }
+    .chatbot-container {
+        width: 100%;
+        height: auto;
+        padding: 12px 0;
+        background: #f94449;
+        text-align: center;
+        position: relative;
+        font-size: 1.1rem;
+        flex-grow: 1;
+    }
+
+    /* Ensure the textarea and send button are aligned and responsive */
+    .chat-input {
+        width: 100%;
+        padding: 5px 10px;
+        display: flex;
+        gap: 5px;  /* Add space between the input and button */
+        align-items: center; /* Align elements properly */
+    }
+
+    /* Adjust the textarea to fill available space */
+    textarea {
+        height: 50px;
+        width: 70%;  /* Takes up all available space */
+        border: none;
+        outline: none;
+        font-size: 0.9rem;
+        resize: none;
+        padding: 12px 14px;
+    }
+
+    /* Fix for send button visibility and positioning */
+    #send-btn {
+        font-size: 24px;
+        color: #f94449;
+        cursor: pointer;
+        padding: 8px 12px;
+        margin: 0;  /* Remove margin */
+        align-self: flex-end;  /* Keep the button aligned at the bottom */
+        flex-shrink: 0;  /* Prevent the button from shrinking */
+    }
+}
+
+
+
+
 
 /* Hero */
 .hero_wrapper{
