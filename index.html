@@ -315,12 +315,12 @@
         let nav_links = document.querySelectorAll("#nav a")
 
         bars.addEventListener("click", () => {
-            nav.classList.toggle("show")
+            nav.classList.toggle("burger_menu")
         })
 
         nav_links.forEach((links)=>{
             links.addEventListener("click",()=>{
-                nav.classList.toggle('show')
+                nav.classList.toggle('burger_menu')
             })
         })
 

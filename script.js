@@ -35,6 +35,7 @@ function getBotResponse(userMessage) {
 
 
     const help = [
+        "You may type either of the following options:",
         "Skills",
         "Education",
         "Experience",

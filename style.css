@@ -98,7 +98,8 @@ button:hover {
   filter: drop-shadow(0 0 20px var(--main-color));
 }
 
-/* ChatBot */
+
+/* General Styles */
 .show-chatbot {
     position: fixed;
     bottom: 20px;
@@ -185,7 +186,7 @@ button:hover {
     display: flex;
     align-items: flex-start;
     margin-bottom: 10px;
-    align-items: center; /* Vertically align items */
+    align-items: center; 
 }
 
 .chat .material-symbols-outlined {
@@ -193,11 +194,11 @@ button:hover {
 }
 .chat p {
     margin: 0;
-    max-width: 75%; /* Limit the message width to prevent it from taking the whole line */
+    max-width: 75%; 
 }
 
 .chat.incoming {
-    justify-content: flex-start; /* Align to the left */
+    justify-content: flex-start;
 }
 
 /* Incoming messages */
@@ -210,7 +211,7 @@ button:hover {
     
 }
 .chatbox .outgoing {
-    justify-content: flex-end; /* Align to the right */
+    justify-content: flex-end; 
     color: #333;
     border-radius: 5px;
     padding: 10px;
@@ -271,7 +272,7 @@ textarea {
     font-size: 24px;
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    display: block; /* Always visible when chatbot is closed */
+    display: block; 
     transition: all 0.3s ease;
 }
 
@@ -279,7 +280,7 @@ textarea {
     background-color: #0056b3;
 }
 .chat .material-symbols-outlined {
-    margin: 0 10px; /* Space between icon and message */
+    margin: 0 10px; 
     font-size: 1.5rem;
 }
 /* Adjust the icon position based on message alignment */
@@ -295,72 +296,94 @@ textarea {
     display: none;
 }
 
-/* Adjust send button styling on small screens */
-@media (max-width: 490px) {
-    .show-chatbot{
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        z-index: 1000;
-    }
+/* General mobile responsiveness */
+@media (max-width: 768px) {
+    /* Chatbot container */
     .chatbot {
-        right: 0;
-        bottom: 0;
         width: 100%;
-        border-radius: 0;
-    }
-    .chatbot .chatbox {
-        height: 85%;
-    }
-    .chatbot .chatbot-container h2 {
-        font-size: 1.1rem;
-    }
-    .chatbox .chat p {
-        font-size: 0.85rem;
-    }
-    .chatbot-container {
-        width: 100%;
-        height: auto;
-        padding: 12px 0;
-        background: #f94449;
-        text-align: center;
-        position: relative;
-        font-size: 1.1rem;
-        flex-grow: 1;
+        height: 100%;
+        border-radius: 0; 
     }
 
-    /* Ensure the textarea and send button are aligned and responsive */
+    /* Chatbox Toggler Button */
+    .chatbox-toggler {
+        height: 50px;
+        width: 50px;
+        font-size: 1.2rem; /* Slightly larger for better visibility */
+    }
+
+    /* Chat input adjustments for smaller screens */
     .chat-input {
-        width: 100%;
-        padding: 5px 10px;
-        display: flex;
-        gap: 5px;  
-        align-items: center; 
+        /*flex-direction: column; */
+        padding: 10px;
     }
 
-    /* Adjust the textarea to fill available space */
-    textarea {
-        height: 50%;
-        width: 70%;  
-        border: none;
-        outline: none;
-        font-size: 0.9rem;
-        resize: none;
-        padding: 12px 14px;
-       
+    .chat-input textarea {
+        height: 60px; 
+        font-size: 1rem; 
     }
 
-    /* Fix for send button visibility and positioning */
     #send-btn {
-        font-size: 24px;
-        color: #f94449;
-        cursor: pointer;
-        padding: 8px 12px;
-        margin: 0;  
+        font-size: 20px;
+        margin-top: 0; 
         align-self: flex-end; 
-        flex-shrink: 0; 
+    }
+
+    /* Chat messages container adjustments */
+    .chatbox {
+        max-height: calc(100% - 130px); 
+        overflow-y: auto;
+        padding: 10px 10px 0;
+    }
+
+    /* Chat header adjustments */
+    .chatbot-container h2 {
+        font-size: 1rem; 
+    }
+
+    .close-btn {
+        top: 15px;
+        right: 15px;
     }
 }
+
+/* Smaller devices (max-width: 480px) */
+@media (max-width: 480px) {
+    /* Chatbot container fills the entire view */
+    .chatbot {
+        height: 60vh; 
+        width: 90vw; 
+        border-radius: 10px;
+        font-size: 0.85rem; 
+    }
+
+    /* Chatbox Toggler Button */
+    .chatbox-toggler {
+        bottom: 15px;
+        right: 15px;
+        font-size: 1rem;
+    }
+
+    /* Chatbox Messages */
+    .chat p {
+        max-width: 90%; 
+    }
+
+    /* Chat input */
+    .chat-input textarea {
+        height: 30px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Open Chat Button for Mobile */
+.open-chat-btn {
+    bottom: 15px;
+    right: 15px;
+    font-size: 20px;
+    padding: 10px;
+}
+
 /*End of Chatbot*/
 
 
@@ -680,11 +703,7 @@ textarea {
 }
 .swiper {
     width: 100%;
-    /*height: 500px;
-    margin: auto;*/
     overflow-x: hidden;
-    /*margin-left: 0;
-    margin-right: 0;*/
 }
 
 .swiper-slide {
@@ -883,7 +902,7 @@ footer p span{
   nav p{
     color: #000;
   }
-  .show {
+  .burger_menu {
     height: 280px;
     padding: 30px;
   }
