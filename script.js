@@ -1,78 +1,131 @@
-const chatInput = document.querySelector(".chat-input textarea");
-const sendChatBtn = document.querySelector("#send-btn");
-const chatbox = document.querySelector(".chatbox");
-const chatButton = document.querySelector(".chatbox-toggler");
-const closeChatbotButtons = document.querySelectorAll(".close-chatbot");
-const showChatbot = document.querySelector(".show-chatbot");
+// Function to open the chat window
+function openChat() {
+    const chatbot = document.querySelector('.chatbot');
+    const openIcon = document.querySelector('.chatbox-toggler .open');
+    const closeIcon = document.querySelector('.chatbox-toggler .close');
+    const openChatBtn = document.querySelector('.open-chat-btn'); // Floating open button
 
-// Function to create a new chat message element
-const createChatLi = (message, className) => {
-    const chatLi = document.createElement("li");
-    chatLi.classList.add("chat", className);
-    let chatContent = className === "outgoing"
-        ? `<p>${message}</p>`
-        : `<span class="material-symbols-outlined">smart_toy</span><p>${message}</p>`;
-    chatLi.innerHTML = chatContent;
-    return chatLi;
-};
+    // Show the chatbot and switch the icons
+    chatbot.classList.add('show');
+    openIcon.style.display = 'none';
+    closeIcon.style.display = 'block';
 
-// Simulating a chatbot response
-const generateResponse = (userMessage) => {
-    let botResponse = "";
-    if (userMessage.includes("hello") || userMessage.includes("hi")) {
-        botResponse = "Hi there! How can I help you today?";
-    } else if (userMessage.includes("help")) {
-        botResponse = "Sure, I can assist you. What do you need help with?";
-    } else {
-        botResponse = "I'm not sure I understand. Could you please clarify?";
+    // Hide the floating open chat button
+    openChatBtn.style.display = 'none';
+}
+
+// Function to close the chat window
+function closeChat() {
+    const chatbot = document.querySelector('.chatbot');
+    const openIcon = document.querySelector('.chatbox-toggler .open');
+    const closeIcon = document.querySelector('.chatbox-toggler .close');
+    const openChatBtn = document.querySelector('.open-chat-btn'); // Floating open button
+
+    // Hide the chatbot and switch the icons
+    chatbot.classList.remove('show');
+    openIcon.style.display = 'block';
+    closeIcon.style.display = 'none';
+
+    // Show the floating open chat button again
+    openChatBtn.style.display = 'block';
+}
+
+// Unified bot response logic
+function getBotResponse(userMessage) {
+
+
+    const help = [
+        "You may type either of the following options:",
+        "Skills",
+        "Education",
+        "Experience",
+        "Location",
+        "About",
+        "Contact",
+      ];
+
+      const bullethelp = help.map(item => `• ${item}`).join("\n");
+
+    const responses = {
+        help: bullethelp,
+        hi: "Hello! I am MiBot. How can I assist you today?",
+        hello: 'Hello! I am MiBot. How can I assist you today?',
+        hey: 'Hey! I am MiBot. How can I assist you today?',
+        'how are you': "I'm great, thank you for asking! 😊 How about you?",
+        skills: 'My Soft Skills include: Communication, Teamwork, Adaptability, Emotional Intelligence, Creativity... and my Technical Skills include: C++, Java, HTML, CSS, SQL, Microsoft Suite, ER Modeling...',
+        experience: 'I did my Work Integrated Learning with Mosebo Networks for a year.',
+        education: 'I attended Noordwyk Secondary where I obtained my Matric Certificate in the year 2017. I then went to Tshwane University of Technology (TUT), where I completed my National Diploma in Information Technology (Software Development).',
+        contact: 'You can contact me on either of the following numbers (076) 596-4163/(069) 845-9952 or email me on "mixoelencia@gmail.com"',
+        location: 'I am located in Midrand, Gauteng.',
+        bye: 'Goodbye! Have a nice day!',
+    };
+
+    const lowerCaseMessage = userMessage.toLowerCase();
+    return responses[lowerCaseMessage] || "Sorry, I didn't quite understand that. Can you rephrase?";
+}
+
+// Function to create and display a message
+function createMessage(content, sender) {
+    const messageElement = document.createElement("li");
+    messageElement.classList.add("chat");
+    messageElement.classList.add(sender === 'user' ? 'outgoing' : 'incoming');
+
+    const icon = document.createElement("span");
+    icon.classList.add("material-symbols-outlined");
+    icon.textContent = sender === 'user' ? 'person' : 'smart_toy';
+
+    const messageText = document.createElement("p");
+    messageText.textContent = content;
+
+    messageElement.appendChild(sender === 'user' ? messageText : icon);
+    messageElement.appendChild(sender === 'user' ? icon : messageText);
+
+    return messageElement;
+}
+
+// Function to handle sending a message
+function sendMessage() {
+    const userInput = document.getElementById("user-input");
+    const chatBox = document.getElementById("chat-box");
+    const userMessage = userInput.value.trim();
+    
+
+    if (userMessage) {
+        // Display the user's message
+        chatBox.appendChild(createMessage(userMessage, 'user'));
+
+        // Clear the input field
+        userInput.value = "";
+        userInput.focus();
+
+        // Scroll to the bottom of the chatbox
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        // Get and display bot response
+        setTimeout(() => {
+            const botResponse = getBotResponse(userMessage);
+            chatBox.appendChild(createMessage(botResponse, 'bot'));
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }, 1000); // Bot reply delay
     }
+}
 
-    setTimeout(() => {
-        chatbox.appendChild(createChatLi(botResponse, "incoming"));
-        chatbox.scrollTop = chatbox.scrollHeight;
-    }, 1000);
-};
-
-// Handle sending the chat message
-const handleChat = () => {
-    const userMessage = chatInput.value.trim();
-    if (!userMessage) return;
-
-    chatbox.appendChild(createChatLi(userMessage, "outgoing"));
-    chatInput.value = "";
-
-    setTimeout(() => {
-        chatbox.appendChild(createChatLi("Thinking...", "incoming"));
-        chatbox.scrollTop = chatbox.scrollHeight;
-    }, 300);
-
-    generateResponse(userMessage);
-};
-
-// Event listener for send button
-sendChatBtn.addEventListener("click", handleChat);
-
-// Optional: Enable 'Enter' key to send the message
-chatInput.addEventListener("keypress", (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-        e.preventDefault();
-        handleChat();
+// Add event listeners for sending messages
+document.getElementById("send-btn").addEventListener("click", sendMessage);
+document.getElementById("user-input").addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        sendMessage();
     }
 });
 
-// Toggle the chatbot visibility
-chatButton.addEventListener("click", () => {
-    showChatbot.classList.toggle("show");
-    const isVisible = showChatbot.classList.contains("show");
-    chatButton.querySelector(".open").style.opacity = isVisible ? "0" : "1";
-    chatButton.querySelector(".close").style.opacity = isVisible ? "1" : "0";
-});
+// Attach event listeners for chat toggler and close button
+document.querySelector('.chatbox-toggler').addEventListener('click', openChat);
+document.querySelector('.close-chatbot').addEventListener('click', closeChat);
 
-// Close the chatbot when the close button inside the chatbot is clicked
-closeChatbotButtons.forEach(button => {
-    button.addEventListener("click", () => {
-        showChatbot.classList.remove("show");
-        chatButton.querySelector(".open").style.opacity = "1";
-        chatButton.querySelector(".close").style.opacity = "0";
-    });
+// Ensure the chatbox is ready when DOM loads
+document.addEventListener("DOMContentLoaded", function () {
+    const initialMessage = document.querySelector("#chat-box .chat.incoming");
+    if (initialMessage) {
+        initialMessage.style.display = "none";
+    }
 });
