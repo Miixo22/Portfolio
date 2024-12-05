@@ -486,14 +486,14 @@ textarea {
         width: 100%;
         padding: 5px 10px;
         display: flex;
-        gap: 5px;  /* Add space between the input and button */
-        align-items: center; /* Align elements properly */
+        gap: 5px;  
+        align-items: center; 
     }
 
     /* Adjust the textarea to fill available space */
     textarea {
         height: 50px;
-        width: 70%;  /* Takes up all available space */
+        width: 70%;  
         border: none;
         outline: none;
         font-size: 0.9rem;
@@ -507,9 +507,9 @@ textarea {
         color: #f94449;
         cursor: pointer;
         padding: 8px 12px;
-        margin: 0;  /* Remove margin */
-        align-self: flex-end;  /* Keep the button aligned at the bottom */
-        flex-shrink: 0;  /* Prevent the button from shrinking */
+        margin: 0;  
+        align-self: flex-end; 
+        flex-shrink: 0; 
     }
 }
 

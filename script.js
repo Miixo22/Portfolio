@@ -38,7 +38,9 @@ function getBotResponse(userMessage) {
         "Skills",
         "Education",
         "Experience",
+        "Location",
         "About",
+        "Contact",
       ];
 
       const bullethelp = help.map(item => `• ${item}`).join("\n");
@@ -52,6 +54,7 @@ function getBotResponse(userMessage) {
         skills: 'My Soft Skills include: Communication, Teamwork, Adaptability, Emotional Intelligence, Creativity... and my Technical Skills include: C++, Java, HTML, CSS, SQL, Microsoft Suite, ER Modeling...',
         experience: 'I did my Work Integrated Learning with Mosebo Networks for a year.',
         education: 'I attended Noordwyk Secondary where I obtained my Matric Certificate in the year 2017. I then went to Tshwane University of Technology (TUT), where I completed my National Diploma in Information Technology (Software Development).',
+        contact: 'You can contact me on either of the following numbers (076) 596-4163/(069) 845-9952 or email me on "mixoelencia@gmail.com"',
         location: 'I am located in Midrand, Gauteng.',
         bye: 'Goodbye! Have a nice day!',
     };
